@@ -28,5 +28,11 @@ threedo.spaces().myFirstSpace.node(new threedo.Node3D({name:"bigMonster"}));
 ```
 
 ### Scenes
+TODO: Add support and documentation for multi-scene handling
+
+**Creating a scene**
+```
+threedo.scene.init(callback)
+```
 
 ## Next Steps
