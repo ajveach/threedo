@@ -1,11 +1,15 @@
 //@prepros-append ../js/threedo.base.js
-//
-//@prepros-append ../js/core/onResize.js
-//@prepros-append ../js/core/update.js
-//@prepros-append ../js/core/loading.js
-//@prepros-append ../js/core/Model.js
-//@prepros-append ../js/core/scene.js
-//@prepros-append ../js/core/UI.js
+
+//@prepros-append ../js/core/_spaces.js
+//@prepros-append ../js/core/_onResize.js
+//@prepros-append ../js/core/_update.js
+//@prepros-append ../js/core/_loading.js
+//@prepros-append ../js/core/_Model.js
+//@prepros-append ../js/core/_scene.js
+//@prepros-append ../js/core/_UI.js
+//@prepros-append ../js/core/_Space.js
+//@prepros-append ../js/core/_Node.js
+//@prepros-append ../js/core/_Node3D.js
 
 //@prepros-append ../js/utility/*.js
 
