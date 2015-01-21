@@ -36,10 +36,10 @@ threedo.space('myFirstSpace').node.add(node);
 *NOTE: You can chain node and space creation together*
 
 ```
-threedo.space
-		.add(new threedo.Space({name:"myFirstSpace"}))
-		.node.add(new threedo.Node3D({name:"bigMonster"}))
-			.name;
+threedo
+	.space.add(new threedo.Space({name:"myFirstSpace"}))
+	.node.add(new threedo.Node3D({name:"bigMonster"}))
+		.name;
 ```
 
 **Using nodes in the space**
