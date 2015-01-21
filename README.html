@@ -28,7 +28,10 @@ var node = new threedo.Node3D({name:&quot;bigMonster&quot;});
 // Add the node to a space
 threedo.space(&#39;myFirstSpace&#39;).node.add(node);
 </code></pre><p><em>NOTE: You can chain node and space creation together</em></p>
-<pre><code>threedo.space.add(new threedo.Space({name:&quot;myFirstSpace&quot;})).node.add(new threedo.Node3D({name:&quot;bigMonster&quot;})).name;
+<pre><code>threedo.space
+        .add(new threedo.Space({name:&quot;myFirstSpace&quot;}))
+        .node.add(new threedo.Node3D({name:&quot;bigMonster&quot;}))
+            .name;
 </code></pre><p><strong>Using nodes in the space</strong></p>
 <pre><code>threedo.space(&#39;myFirstSpace&#39;).node(&#39;bigMonster&#39;).name;
 </code></pre><h3 id="scenes">Scenes</h3>
