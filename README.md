@@ -16,7 +16,7 @@ Spaces in threedo are similar to namespaces, and are not related to any 2D or 3D
 // Create the space
 var space = new threedo.Space({name:"myFirstSpace"});
 // Add it to threedo's spaces library
-threedo.spaces(space);
+threedo.space.add(space);
 ```
 
 ### Nodes
@@ -31,6 +31,18 @@ Nodes are the primary building block for game objects in threedo. There will be 
 var node = new threedo.Node3D({name:"bigMonster"});
 // Add the node to a space
 threedo.space('myFirstSpace').node.add(node);
+```
+
+*NOTE: You can chain node and space creation together*
+
+```
+threedo.space.add(new threedo.Space({name:"myFirstSpace"})).node.add(new threedo.Node3D({name:"bigMonster"})).name;
+```
+
+**Using nodes in the space**
+
+```
+threedo.space('myFirstSpace').node('bigMonster').name;
 ```
 
 ### Scenes
