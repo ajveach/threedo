@@ -15,12 +15,18 @@ README.md
 <p>Spaces in threedo are similar to namespaces, and are not related to any 2D or 3D space. Spaces are containers for nodes, and can include other functionality as well. Use spaces to organize your code structure, and to easily chain calls to individual nodes.</p>
 <p><strong>Creating a space</strong></p>
 <p><em>NOTE: You can create and manage a space on your own, but by calling threedo.spaces() threedo will track the space for you</em></p>
-<pre><code>threedo.spaces(new threedo.Space({name:&quot;myFirstSpace&quot;}));
+<pre><code>// Create the space
+var space = new threedo.Space({name:&quot;myFirstSpace&quot;});
+// Add it to threedo&#39;s spaces library
+threedo.spaces(space);
 </code></pre><h3 id="nodes">Nodes</h3>
 <p>Nodes are the primary building block for game objects in threedo. There will be a number of different types of nodes available that will all inherit from the threedo.Node object</p>
 <p><strong>Creating a node</strong></p>
 <p><em>NOTE: You can create and manage nodes on your own, but they will be more effective and organized if created inside a space</em></p>
-<pre><code>threedo.spaces().myFirstSpace.node(new threedo.Node3D({name:&quot;bigMonster&quot;}));
+<pre><code>// Create a 3D node
+var node = new threedo.Node3D({name:&quot;bigMonster&quot;});
+// Add the node to a space
+threedo.space(&#39;myFirstSpace&#39;).node.add(node);
 </code></pre><h3 id="scenes">Scenes</h3>
 <p>TODO: Add support and documentation for multi-scene handling</p>
 <p><strong>Creating a scene</strong></p>
