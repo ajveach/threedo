@@ -14,24 +14,32 @@ README.md
 <h3 id="spaces">Spaces</h3>
 <p>Spaces in threedo are similar to namespaces, and are not related to any 2D or 3D space. Spaces are containers for nodes, and can include other functionality as well. Use spaces to organize your code structure, and to easily chain calls to individual nodes.</p>
 <p><strong>Creating a space</strong></p>
-<p><em>NOTE: You can create and manage a space on your own, but by calling threedo.spaces() threedo will track the space for you</em></p>
+<p><em>NOTE: You can create and manage a space on your own, but by calling threedo.spaces() threedo will track the space for you.</em></p>
 <pre><code>// Create the space
 var space = new threedo.Space({name:&quot;myFirstSpace&quot;});
 // Add it to threedo&#39;s spaces library
 threedo.space.add(space);
+
+// This is the shorthand method
+threedo.space({name:&quot;myFirstSpace&quot;});
 </code></pre><h3 id="nodes">Nodes</h3>
-<p>Nodes are the primary building block for game objects in threedo. There will be a number of different types of nodes available that will all inherit from the threedo.Node object</p>
+<p>Nodes are the primary building block for game objects in threedo. There will be a number of different types of nodes available that will all inherit from the threedo.Node object. You can create and manage nodes on your own, but they will be more effective and organized if created/added inside a space. By adding a node to a space, its update() method will automatically be fired every frame. If you don&#39;t add a node to a space, you will have to manually register its update method with threedo.update().</p>
 <p><strong>Creating a node</strong></p>
-<p><em>NOTE: You can create and manage nodes on your own, but they will be more effective and organized if created inside a space</em></p>
 <pre><code>// Create a 3D node
 var node = new threedo.Node3D({name:&quot;bigMonster&quot;});
 // Add the node to a space
 threedo.space(&#39;myFirstSpace&#39;).node.add(node);
+
+// This is the shorthand method
+threedo.space(&#39;myFirstSpace&#39;).node({name : &quot;bigMonster&quot;, type : threedo.Node3D});
 </code></pre><p><em>NOTE: You can chain node and space creation together</em></p>
 <pre><code>threedo
     .space.add(new threedo.Space({name:&quot;myFirstSpace&quot;}))
     .node.add(new threedo.Node3D({name:&quot;bigMonster&quot;}))
         .name;
+
+// This is the combined shorthand method
+threedo.space({name : &quot;myFirstSpace&quot;}).node({name : &quot;bigMonster&quot;, type : threedo.Node3D});
 </code></pre><p><strong>Using nodes in the space</strong></p>
 <pre><code>threedo.space(&#39;myFirstSpace&#39;).node(&#39;bigMonster&#39;).name;
 </code></pre><h3 id="scenes">Scenes</h3>

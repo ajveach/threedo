@@ -1,6 +1,6 @@
 //@prepros-append ../js/threedo.base.js
 
-//@prepros-append ../js/core/_spaces.js
+//@prepros-append ../js/core/_space.js
 //@prepros-append ../js/core/_onResize.js
 //@prepros-append ../js/core/_update.js
 //@prepros-append ../js/core/_loading.js
