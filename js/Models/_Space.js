@@ -2,6 +2,8 @@
 	threedo.Space = function(options){
 		threedo.Node.call(this,options.name);
 
+		var Space = this;
+
 		this.type = "Space";
 
 		var _nodes = {};
@@ -30,6 +32,9 @@
 			else if(name instanceof threedo.Node){
 				// Node type object provided. Add it to nodes list
 				var Node = name;
+				if(Node.Space instanceof threedo.Space)
+					Node.Space.node.remove(Node);
+				Node.Space = Space;
 				_nodes[Node.name] = Node;
 				return Node;
 			}
@@ -45,9 +50,13 @@
 					else if(options.type === 'string' && typeof threedo[options.type] === 'function')
 						Node = new threedo[options.type](options);
 					
-					if(Node)
+					if(Node){
+						if(Node.Space instanceof threedo.Space)
+							Node.Space.node.remove(Node);
+						Node.Space = Space;
 						_nodes[options.name] = Node;
-					
+					}
+
 					return Node;
 				}
 			}
@@ -57,6 +66,11 @@
 
 		this.node.add = function(Node){
 			return this(Node);
+		};
+
+		this.node.remove = function(Node){
+			if(_nodes[Node.name])
+				delete _nodes[Node.name];
 		};
 	};
 

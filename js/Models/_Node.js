@@ -9,6 +9,12 @@
 			get:function(){ return _name; },
 			set:function(value){ _name = value; }
 		});
+
+		var _space = null;
+		Object.defineProperty(this,"Space",{
+			get:function(){ return _space;},
+			set:function(value){ _space = value; }
+		});
 	};
 
 	threedo.Node.prototype = Object.create(threedo.Model.prototype);
