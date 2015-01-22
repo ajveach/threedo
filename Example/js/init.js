@@ -24,17 +24,14 @@ $(function(){
 			prefix + "zneg.png"
 		]);
 
-		// For now load Sol system
-		/*var system = OT.planetarySystem(new OT.Model.PlanetarySystem({id:"53e6bab92512c89a0e6bb76e"}));
-
-		system.load(function(){
-			system.display().planetSelect().populate().focus();
-
-			threedo.loading();
-			if(typeof next === 'function')
-				next(r);
-		});*/
-
+		// Create threedo space
+		threedo.space({
+			name : "solarSystem"
+		}).node({
+			name : "Earth",
+			type : window.Planet
+		});
+		
 		threedo.loading(false);
 	});
 });
