@@ -13,11 +13,7 @@
 		_backgroundAlpha = 1,
 		_skybox = null;
 
-	var _objects = {
-		light : {},
-		mesh : {},
-		empty : {}
-	};
+	var _objects = {};
 
 	var scene = function(){
 		return _scene;
@@ -151,27 +147,23 @@
 		return _camera;
 	};
 	scene.camera.position = function(x,y,z){
-		console.log(x,y,z);
-		console.log(_camera.position);
 		_cameraContainer.position.set(x,y,z);
 	};
-	scene.light = function(name){
-		return _objects.light[name];
-	};
-	scene.mesh = function(name){
-		return _objects.mesh[name];
+	scene.find = function(name){
+		return _objects[name];
 	};
 
 	/**
 	 * WRAPPER METHODS
 	 */
-	scene.add = function(type,name,object){
-		if(_objects[type]){
-			_objects[type][name] = object;
+	scene.add = function(name,object){
+		if(!_objects[name]){
+			_objects[name] = object;
 			_scene.add(object);
 			return object;
 		}
-		return false;
+
+		throw "An object already exists in this scene named \""+name+"\"";
 	};
 
 	/**
@@ -200,18 +192,6 @@
 		_renderer.setClearColor( _backgroundColor, _backgroundAlpha );
 
 		scene.$container.append(_renderer.domElement);
-
-					// MOVE OUTSITE INIT
-					// create a point light
-					var demoLight = new THREE.PointLight(0xFFFFFF);
-
-					// set its position
-					demoLight.position.x = 10;
-					demoLight.position.y = 50;
-					demoLight.position.z = 130;
-
-					// add to the scene
-					scene.add("light","demoLight",demoLight);
 
 		// Add loader utility (must be done during init)
 		threedo.utility.loader = new THREE.JSONLoader();
