@@ -2,11 +2,6 @@
 	threedo.Sphere = function(options){
 		var options = options || {};
 
-		// Skip THREE.Object3D creation in Node3D class
-		options.noObject3D = true;
-
-		threedo.Node3D.call(this,options);
-
 		// 
 		// Create sphere mesh
 		// 
@@ -25,26 +20,14 @@
 			material = new THREE.MeshLambertMaterial({color:color});
 
 		// Create mesh
-		var _mesh = new THREE.Mesh(geometry,material);
+		options.Mesh = new THREE.Mesh(geometry,material);
 
-		// Apply rotation
-		if(options.rotation){
-			_mesh.rotation.x = options.rotation[0];
-			_mesh.rotation.y = options.rotation[1];
-			_mesh.rotation.z = options.rotation[2];
-		}
-
-		Object.defineProperty( this, "Mesh", {
-			get : function(){ return _mesh; },
-			set : function(value){ _mesh = value; }
-		});
-		// Add mesh to scene
-		threedo.scene.add(options.name, _mesh);
-
+		// Call Mesh constructor
+		threedo.Mesh.call(this,options);
 
 		this.type = "Sphere";
 	};
 
-	threedo.Sphere.prototype = Object.create(threedo.Node3D.prototype);
+	threedo.Sphere.prototype = Object.create(threedo.Mesh.prototype);
 	threedo.Sphere.constructor = threedo.Sphere;
 })();

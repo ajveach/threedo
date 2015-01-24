@@ -28,9 +28,7 @@ $(function(){
 
 		threedo.space({
 			name : "main"
-		});
-
-		threedo.space("main").node(new threedo.Light({
+		}).node(new threedo.Light({
 			name : "light",
 			color : 0xffffff,
 			position : [0,0,10]
@@ -39,11 +37,22 @@ $(function(){
 		threedo.space("main").node(new threedo.Cube({
 			name : "myCube",
 			color : 0xff00ff,
-			scale : [1,1,1],
-			rotation : [45,45,0]
+			scale : new THREE.Vector3(1,1,2),
+			rotation : new THREE.Euler(1,1,1,'XYZ'),
+			position : new THREE.Vector3(-1,-1,0)
 		})).update = function(){
 			this.Mesh.rotation.x += .01;
 			this.Mesh.rotation.y += .01;
+		};
+
+		threedo.space("main").node(new threedo.Sphere({
+			name : "mySphere",
+			color : 0xff0000,
+			position : new THREE.Vector3(1,1,0),
+			segments : [16,16]
+		})).update = function(){
+			this.Mesh.rotation.y += .02;
+			this.Mesh.rotation.z += .01;
 		};
 		
 		threedo.loading(false);

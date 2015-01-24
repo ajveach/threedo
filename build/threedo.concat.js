@@ -12,6 +12,7 @@
 //@prepros-append ../js/Models/_Space.js
 //@prepros-append ../js/Models/_Node3D.js
 //@prepros-append ../js/Models/_Light.js
+//@prepros-append ../js/Models/_Mesh.js
 //@prepros-append ../js/Models/_Cube.js
 ////@prepros-append ../js/Models/_Sphere.js
 
