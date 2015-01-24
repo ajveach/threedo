@@ -2,6 +2,9 @@
 	threedo.Node = function(name){
 		threedo.Model.call(this);
 
+		if(!name)
+			throw "A valid name was not provided to create this node";
+
 		this.type = "Node";
 
 		var _name = name;
