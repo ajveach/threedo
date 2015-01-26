@@ -53,6 +53,7 @@ $(function(){
 		})).update = function(){
 			this.Mesh.rotation.y += .02;
 			this.Mesh.rotation.z += .01;
+			this.Mesh.scale.x = Math.abs(Math.sin(threedo.update.time));
 		};
 		
 		threedo.loading(false);

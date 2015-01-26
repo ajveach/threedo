@@ -5,7 +5,8 @@
 	var update = function(){
 		// Update delta time
 		var now = new Date().getTime();
-		threedo.update.deltaTime = now - lastUpdate;
+		threedo.update.delta = (now - lastUpdate)/1000;
+		threedo.update.time = Math.round((threedo.update.time + threedo.update.delta) * 1000) / 1000;
 		lastUpdate = now;
 
 		for (var k in hooks) {
@@ -24,7 +25,7 @@
 	};
 
 	update.deltaTime = 0;
-
+	update.time = 0;
 
 	threedo.update = update;
 })();

@@ -105,7 +105,7 @@
 			set : function(value){ _skybox = value; }
 		});
 
-		var _$container;
+		var _$container = options.$container || threedo.$container.primary;
 		Object.defineProperty(this,"$container",{
 			get : function(){ return _$container;},
 			set : function(value){ _$container = value; }
