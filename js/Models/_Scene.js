@@ -1,54 +1,20 @@
 (function(){
-	threedo.Scene = function(name){
+	threedo.Scene = function(options){
 		threedo.Model.call(this);
 
-		if(!name)
+		if(!options.name)
 			throw "A valid name was not provided to create this scene";
 
-		var _name = name;
+		var _name = options.name;
 		Object.defineProperty(this,"name",{
 			get:function(){ return _name; },
 			set:function(value){ _name = value; }
-		});
-
-		var _width;
-		Object.defineProperty(this,"width",{
-			get : function(){ return _width;},
-			set : function(value){ 
-				_width = value; 
-				// Set aspect ratio when width is changed
-				this.aspectRatio = _width/this.height;
-				this.renderer.setSize( _width, this.height );
-			}
-		});
-
-		var _height;
-		Object.defineProperty(this,"height",{
-			get : function(){ return _height;},
-			set : function(value){ 
-				_height = value; 
-				// Set aspect ratio when height is changed
-				this.aspectRatio(this.width/_height);
-				this.renderer.setSize( this.width, _height );
-			}
 		});
 
 		var _viewAngle = 45;
 		Object.defineProperty(this,"viewAngle",{
 			get : function(){ return _viewAngle;},
 			set : function(value){ _viewAngle = value; }
-		});
-
-		var _aspectRatio;
-		Object.defineProperty(this,"aspectRatio",{
-			get : function(){ return _aspectRatio;},
-			set : function(value){ 
-				_aspectRatio = value; 
-				if(this.camera){
-					this.camera.aspect = _aspectRatio;
-					this.camera.updateProjectionMatrix();
-				}
-			}
 		});
 
 		var _near = 0.1;
@@ -63,25 +29,12 @@
 			set : function(value){ _far = value; }
 		});
 
-		var _renderer;
-		Object.defineProperty(this,"renderer",{
-			get : function(){ return _renderer;},
-			set : function(value){ _renderer = value; }
+		var _renderers = {};
+		Object.defineProperty(this,"renderers",{
+			get : function(){ return _renderers;},
 		});
 
-		var _camera;
-		Object.defineProperty(this,"camera",{
-			get : function(){ return _camera;},
-			set : function(value){ _camera = value; }
-		});
-
-		var _cameraContainer;
-		Object.defineProperty(this,"cameraContainer",{
-			get : function(){ return _cameraContainer;},
-			set : function(value){ _cameraContainer = value; }
-		});
-
-		var _scene;
+		var _scene = new THREE.Scene();
 		Object.defineProperty(this,"scene",{
 			get : function(){ return _scene;},
 			set : function(value){ _scene = value; }
@@ -99,10 +52,26 @@
 			set : function(value){ _backgroundAlpha = value; }
 		});
 
-		var _skybox;
+		var _skybox = {};
 		Object.defineProperty(this,"skybox",{
 			get : function(){ return _skybox;},
-			set : function(value){ _skybox = value; }
+			set : function(images){
+				_skybox.materials = [];
+				for(var i = 0; i < images.length; ++i){
+					_skybox.materials.push(new THREE.MeshBasicMaterial({
+						map: THREE.ImageUtils.loadTexture(images[i]),
+						side : THREE.BackSide
+					}));
+				}
+
+				if(!_skybox.mesh){
+					_skybox.mesh = new THREE.Mesh(
+					    new THREE.BoxGeometry( _far, _far, _far),
+					    new THREE.MeshFaceMaterial( _skybox.materials )
+					);
+					_scene.add(_skybox.mesh);
+				}
+			}
 		});
 
 		var _$container = options.$container || threedo.$container.primary;
@@ -111,10 +80,62 @@
 			set : function(value){ _$container = value; }
 		});
 
-		var _objects = {};
+		/**
+		* 	Scene node handling
+		**/
+		var _nodes = {};
+		Object.defineProperty(this, "nodes", {
+			get : function(){ return _nodes; }
+		});
 
+		this.add = function(node){
+			if(!_nodes[node.name]){
+				_nodes[node.name] = node;
+				var sceneObj = node.container || node.Mesh || node.Object3D || node.light;
+				_scene.add(sceneObj);
+				return node;
+			}
+
+			throw "A node already exists in this scene named \""+node.name+"\"";
+		};
+
+		this.find = function(name){
+			return _nodes[name] || null;
+		};
+
+		/**
+		 * 	Animation handler
+		 */
+		var _animate = function(){
+			requestAnimationFrame(_animate);
+			stats.begin();
+				threedo.update();
+				for(var i in _renderers){
+					if(_renderers.hasOwnProperty(i))
+						_renderers[i].render(_scene, _renderers[i].camera.camera);
+				}
+			stats.end();
+		};
 
 		this.type = "Scene";
+
+		/**
+		 *		Create basic scene components (camera, renderer)
+		 */
+		var mainCamera = this.add(new threedo.Camera({
+			name : "mainCamera",
+			near : _near,
+			far : _far
+		}));
+
+		_renderers['primary'] = new threedo.Renderer({
+			name : "primary",
+			camera : mainCamera,
+			scene : this
+		});
+
+		// Start animating
+		_animate();
 	};
 
 	threedo.Scene.prototype = Object.create(threedo.Model.prototype);

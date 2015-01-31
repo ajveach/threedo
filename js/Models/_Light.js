@@ -10,7 +10,7 @@
 		// create a point light
 		var _color = options.color || 0xffffff,
 			_light = new THREE.PointLight(_color);
-		Object.defineProperty( this, "Light", {
+		Object.defineProperty( this, "light", {
 			get : function(){ return _light; }
 		});
 
@@ -21,7 +21,7 @@
 		_light.position.z = _startPosition[2];
 
 		// add to the scene
-		threedo.scene.add(options.name,_light);
+		threedo.scene.add(this);
 
 		this.type = "Light";
 	};

@@ -1,5 +1,47 @@
 $(function(){
-	threedo.scene.init(function(){
+	threedo.init({
+		name : "demo"
+	},function(){
+		threedo.UI.text({
+			name : "threedoLogo",
+			text:"threedo",
+			class:"threedo-UI-logo"
+		});
+
+		// Position camera
+		threedo.scene.renderers.primary.camera.position = new THREE.Vector3(0,0,10);
+
+		// Create skybox
+		var prefix = "img/textures/skybox/";
+		threedo.scene.skybox = [
+			prefix + "xpos.png",
+			prefix + "xneg.png",
+			prefix + "ypos.png",
+			prefix + "yneg.png",
+			prefix + "zpos.png",
+			prefix + "zneg.png"
+		];
+
+		// Create light
+		new threedo.Light({
+			name : "light",
+			color : 0xffffff,
+			position : [0,0,10]
+		});
+
+		// Create cube
+		new threedo.Cube({
+			name : "myCube",
+			color : 0xff00ff,
+			scale : new THREE.Vector3(1,1,2),
+			rotation : new THREE.Euler(1,1,1,'XYZ'),
+			position : new THREE.Vector3(-1,-1,0)
+		}).update = function(){
+			this.Mesh.rotation.x += .01;
+			this.Mesh.rotation.y += .01;
+		};
+	});
+	/*threedo.scene.init(function(){
 		threedo.loading(true);
 
 		threedo.scene.backgroundColor(0xccccff);
@@ -57,5 +99,5 @@ $(function(){
 		};
 		
 		threedo.loading(false);
-	});
+	});*/
 });

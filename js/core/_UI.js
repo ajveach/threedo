@@ -57,14 +57,14 @@
 				obj.$e.css("left",obj.position.left);
 			}
 			else if(typeof obj.position.right === "number"){
-				obj.$e.css("left",threedo.scene.width() - obj.position.right);
+				obj.$e.css("left",threedo.scene.renderers.primary.width - obj.position.right);
 			}
 
 			if(typeof obj.position.top === "number"){
 				obj.$e.css("top",obj.position.top);
 			}
 			else if(typeof obj.position.bottom === "number"){
-				obj.$e.css("top",threedo.scene.height() - obj.position.bottom);
+				obj.$e.css("top",threedo.scene.renderers.primary.height() - obj.position.bottom);
 			}
 
 			return obj;

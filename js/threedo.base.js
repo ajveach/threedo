@@ -30,6 +30,16 @@
 				return _$containers;
 			}
 		});
+
+		// init function to be called when switching scenes
+		this.init = function(options,next){
+			// If scene is loaded, unload it before starting new one
+
+			// Load new scene
+			this.scene = new this.Scene(options);
+			if(typeof next === 'function')
+				next();
+		};
 	};
 
 	window.threedo = new threedo();

@@ -21,7 +21,7 @@
 				_mesh = value; 
 				
 				// Add mesh to scene
-				threedo.scene.add(options.name, _mesh);
+				threedo.scene.add(this);
 			}
 		});
 
