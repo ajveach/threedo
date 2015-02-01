@@ -34,6 +34,10 @@
 			get : function(){ return _renderers;},
 		});
 
+		Object.defineProperty(this,"renderer",{
+			get : function(){ return _renderers.primary;}
+		});
+
 		var _scene = new THREE.Scene();
 		Object.defineProperty(this,"scene",{
 			get : function(){ return _scene;},
@@ -103,6 +107,14 @@
 			return _nodes[name] || null;
 		};
 
+		this.update = function(){
+			// TODO: Look into caching update calls to avoid looping through all nodes
+			// Call update method on nodes in scene
+			for(var i in _nodes)
+				if(_nodes.hasOwnProperty(i) && typeof _nodes[i].update === "function")
+					_nodes[i].update();
+		};
+
 		/**
 		 * 	Animation handler
 		 */
@@ -110,6 +122,8 @@
 			requestAnimationFrame(_animate);
 			stats.begin();
 				threedo.update();
+				if(threedo.scene)
+					threedo.scene.update();
 				for(var i in _renderers){
 					if(_renderers.hasOwnProperty(i))
 						_renderers[i].render(_scene, _renderers[i].camera.camera);

@@ -12,7 +12,7 @@
 			else{
 				obj.$e.show();
 			}
-			obj.$e.children('span').css('line-height',threedo.scene.height()+"px");
+			obj.$e.children('span').css('line-height',threedo.scene.$container.height()+"px");
 		}
 		else{
 			obj.$e.hide();

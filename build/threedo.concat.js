@@ -1,6 +1,5 @@
 //@prepros-append ../js/threedo.base.js
 
-//@prepros-append ../js/core/_space.js
 //@prepros-append ../js/core/_onResize.js
 //@prepros-append ../js/core/_update.js
 //@prepros-append ../js/core/_loading.js
@@ -10,7 +9,6 @@
 //@prepros-append ../js/Models/_Renderer.js
 //@prepros-append ../js/Models/_Scene.js
 //@prepros-append ../js/Models/_Node.js
-//@prepros-append ../js/Models/_Space.js
 //@prepros-append ../js/Models/_Node3D.js
 //@prepros-append ../js/Models/_Camera.js
 //@prepros-append ../js/Models/_Light.js
