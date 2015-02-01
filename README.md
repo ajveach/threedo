@@ -1,9 +1,6 @@
 # threedo
 A wrapper game engine for the three.js library
 
-## Learn More
-You can follow the development of threedo at http://threedo.seventy5times.com.
-
 ## Installation
 
 ## Basic Usage
