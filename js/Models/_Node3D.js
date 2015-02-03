@@ -18,16 +18,16 @@
 					return _object3D.position;
 				else if(this.Mesh)
 					return this.Mesh.position;
-				else if(this.container)
-					return this.container.position;
+				else if(this.Camera)
+					return this.Camera.position;
 			},
 			set : function(pos){
 				if(_object3D)
 					_object3D.position.set(pos.x,pos.y,pos.z);
 				else if(this.Mesh)
 					this.Mesh.position.set(pos.x,pos.y,pos.z);
-				else if(this.container)
-					this.container.position.set(pos.x,pos.y,pos.z);
+				else if(this.Camera)
+					this.Camera.position.set(pos.x,pos.y,pos.z);
 			}
 		});
 

@@ -68,7 +68,7 @@
 		});
 
 		this.render = function(){
-			_renderer.render(_scene.scene,_camera.camera);
+			_renderer.render(_scene.scene,_camera.Camera);
 		};
 
 		// Create and setup THREE.js renderer

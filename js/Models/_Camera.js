@@ -12,19 +12,13 @@
 		var _aspectRatio = options.aspectRatio;
 		Object.defineProperty(this,"aspectRatio",{
 			get : function(){ return _aspectRatio;},
-			set : function(value){ 
-				_aspectRatio = value; 
-				if(this._camera){
-					this._camera.aspect = _aspectRatio;
-					this._camera.updateProjectionMatrix();
+			set : function(value){
+				_aspectRatio = value;
+				if(_camera){
+					_camera.aspect = _aspectRatio;
+					_camera.updateProjectionMatrix();
 				}
 			}
-		});
-
-		// create a container element
-		var _cameraContainer = new THREE.Object3D();
-		Object.defineProperty( this, "container", {
-			get : function(){ return _cameraContainer; }
 		});
 
 		// create a THREE.js camera
@@ -34,15 +28,19 @@
 			options.near || threedo.scene.near,
 			options.far || threedo.scene.far
 		);
-		// Add the camera to the container
-		_cameraContainer.add(_camera);
-		Object.defineProperty( this, "camera", {
+		Object.defineProperty( this, "Camera", {
 			get : function(){ return _camera; }
 		});
 
+		// Add the camera to the scene
+		if(options.scene)
+			options.scene.add(this);
+		else
+			threedo.scene.add(this);
+
 		// set its position
 		var _startPosition = options.position || new THREE.Vector3(0,0,0);
-		_cameraContainer.position.set(_startPosition.x,_startPosition.y,_startPosition.z);
+		_camera.position.set(_startPosition.x,_startPosition.y,_startPosition.z);
 
 		this.type = "Camera";
 	};

@@ -10,7 +10,7 @@
 		// create a point light
 		var _color = options.color || 0xffffff,
 			_light = new THREE.PointLight(_color);
-		Object.defineProperty( this, "light", {
+		Object.defineProperty( this, "Light", {
 			get : function(){ return _light; }
 		});
 

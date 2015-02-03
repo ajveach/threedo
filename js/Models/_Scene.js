@@ -95,7 +95,7 @@
 		this.add = function(node){
 			if(!_nodes[node.name]){
 				_nodes[node.name] = node;
-				var sceneObj = node.container || node.Mesh || node.Object3D || node.light;
+				var sceneObj = node.Camera || node.Mesh || node.Object3D || node.Light;
 				_scene.add(sceneObj);
 				return node;
 			}
@@ -126,7 +126,7 @@
 					threedo.scene.update();
 				for(var i in _renderers){
 					if(_renderers.hasOwnProperty(i))
-						_renderers[i].render(_scene, _renderers[i].camera.camera);
+						_renderers[i].render();
 				}
 			stats.end();
 		};
@@ -136,11 +136,12 @@
 		/**
 		 *		Create basic scene components (camera, renderer)
 		 */
-		var mainCamera = this.add(new threedo.Camera({
+		var mainCamera = new threedo.Camera({
 			name : "mainCamera",
 			near : _near,
-			far : _far
-		}));
+			far : _far,
+			scene : this
+		});
 
 		_renderers['primary'] = new threedo.Renderer({
 			name : "primary",
