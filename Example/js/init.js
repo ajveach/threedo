@@ -41,11 +41,12 @@ $(function(){
 			color : 0xff00ff,
 			scale : new THREE.Vector3(1,1,2),
 			rotation : new THREE.Euler(1,1,1,'XYZ'),
-			position : new THREE.Vector3(-1,-1,0)
+			position : new THREE.Vector3(-2,-1,0)
 		}).update = function(){
 			this.Mesh.rotation.x += .01;
 			this.Mesh.rotation.y += .01;
 			this.Mesh.scale.z = Math.abs(Math.sin(threedo.update.time));
+			this.Mesh.position.y = Math.sin(threedo.update.time);
 		};
 
 		new threedo.Sphere({
