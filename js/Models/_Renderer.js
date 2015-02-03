@@ -5,13 +5,19 @@
 		options.name = options.name || "primary";
 		threedo.Model.call(this,options);
 
+		var _name = options.name;
+		Object.defineProperty(this,"name",{
+			get:function(){ return _name; },
+			set:function(value){ _name = value; }
+		});
+
 		// TODO: add check for WebGL renderer and switch to CanvasRenderer if needed
 		var _renderType = options.renderType || "WebGLRenderer";
 		Object.defineProperty(this, "renderType", {
 			get : function(){ return _renderType; }
 		});
 
-		var _$container = options.$container || threedo.$container.primary;
+		var _$container = options.$container || threedo.$container;
 		Object.defineProperty(this, "$container", {
 			get : function(){ return _$container; },
 			set : function($newContainer){ _$container = $newContainer; }
@@ -69,6 +75,15 @@
 
 		this.render = function(){
 			_renderer.render(_scene.scene,_camera.Camera);
+		};
+
+		this.updateDimensions = function(){
+			var width = _$container.width(),
+					height = _$container.height();
+			if(width !== _width)
+				this.width = width;
+			if(width !== _height)
+				this.height = height;
 		};
 
 		// Create and setup THREE.js renderer

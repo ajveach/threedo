@@ -35,7 +35,14 @@
 		});
 
 		Object.defineProperty(this,"renderer",{
-			get : function(){ return _renderers.primary;}
+			get : function(){ return _renderers.primary;},
+			set : function(newRenderer){
+				if(!newRenderer.name)
+					throw "The new renderer does not have a name.";
+				if(_renderers[newRenderer.name])
+					throw "A renderer with the name \""+newRenderer.name+"\" already exists.";
+				_renderers[newRenderer.name] = newRenderer;
+			}
 		});
 
 		var _scene = new THREE.Scene();
@@ -78,7 +85,7 @@
 			}
 		});
 
-		var _$container = options.$container || threedo.$container.primary;
+		var _$container = options.$container || threedo.$container;
 		Object.defineProperty(this,"$container",{
 			get : function(){ return _$container;},
 			set : function(value){ _$container = value; }
@@ -107,12 +114,28 @@
 			return _nodes[name] || null;
 		};
 
+		var fixedUpdateInterval = .1;
+		var lastFixedUpdate = -fixedUpdateInterval;
 		this.update = function(){
+			var callFixedUpdate = threedo.update.time - lastFixedUpdate >= fixedUpdateInterval ? true : false;
 			// TODO: Look into caching update calls to avoid looping through all nodes
 			// Call update method on nodes in scene
 			for(var i in _nodes)
-				if(_nodes.hasOwnProperty(i) && typeof _nodes[i].update === "function")
-					_nodes[i].update();
+				if(_nodes.hasOwnProperty(i)){
+					if(typeof _nodes[i].update === "function")
+						_nodes[i].update();
+					if(callFixedUpdate && typeof _nodes[i].fixedUpdate === "function"){
+						_nodes[i].fixedUpdate();
+					}
+				}
+			if(callFixedUpdate){
+				// Check for updates to render container dimensions
+				for(var i in _renderers)
+					if(_renderers.hasOwnProperty(i))
+						_renderers[i].updateDimensions();
+				// Update lastFixedUpdate value
+				lastFixedUpdate = threedo.update.time;
+			}
 		};
 
 		/**
@@ -122,6 +145,7 @@
 			requestAnimationFrame(_animate);
 			stats.begin();
 				threedo.update();
+				// Call update on every node
 				if(threedo.scene)
 					threedo.scene.update();
 				for(var i in _renderers){
@@ -143,7 +167,7 @@
 			scene : this
 		});
 
-		_renderers['primary'] = new threedo.Renderer({
+		this.renderer = new threedo.Renderer({
 			name : "primary",
 			camera : mainCamera,
 			scene : this

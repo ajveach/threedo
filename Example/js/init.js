@@ -36,13 +36,14 @@ $(function(){
 		});
 
 		// Create cube
-		new threedo.Cube({
+		var myCube = new threedo.Cube({
 			name : "myCube",
 			color : 0xff00ff,
 			scale : new THREE.Vector3(1,1,2),
 			rotation : new THREE.Euler(1,1,1,'XYZ'),
 			position : new THREE.Vector3(-2,-1,0)
-		}).update = function(){
+		});
+		myCube.update = function(){
 			this.Mesh.rotation.x += .01;
 			this.Mesh.rotation.y += .01;
 			this.Mesh.scale.z = Math.abs(Math.sin(threedo.update.time));

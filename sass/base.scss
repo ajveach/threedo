@@ -1,6 +1,5 @@
 html,body{margin:0;padding:0;height:100%;}
-#threedo{width:100%;height:100%;padding:0;margin:0;overflow:hidden;}
-#threedo > canvas{position:relative;z-index:1;}
+[data-threedoType="container"] > canvas{position:relative;z-index:1;}
 #stats{z-index:9999;}
 
 // UI Imports
