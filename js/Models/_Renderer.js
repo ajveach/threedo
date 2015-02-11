@@ -2,14 +2,7 @@
 	threedo.Renderer = function(options){
 		var options = options || {};
 
-		options.name = options.name || "primary";
 		threedo.Model.call(this,options);
-
-		var _name = options.name;
-		Object.defineProperty(this,"name",{
-			get:function(){ return _name; },
-			set:function(value){ _name = value; }
-		});
 
 		// TODO: add check for WebGL renderer and switch to CanvasRenderer if needed
 		var _renderType = options.renderType || "WebGLRenderer";

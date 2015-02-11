@@ -29,19 +29,11 @@
 			set : function(value){ _far = value; }
 		});
 
-		var _renderers = {};
-		Object.defineProperty(this,"renderers",{
-			get : function(){ return _renderers;},
-		});
-
+		var _renderer = {};
 		Object.defineProperty(this,"renderer",{
-			get : function(){ return _renderers.primary;},
+			get : function(){ return _renderer;},
 			set : function(newRenderer){
-				if(!newRenderer.name)
-					throw "The new renderer does not have a name.";
-				if(_renderers[newRenderer.name])
-					throw "A renderer with the name \""+newRenderer.name+"\" already exists.";
-				_renderers[newRenderer.name] = newRenderer;
+				_renderer = newRenderer;
 			}
 		});
 
@@ -130,9 +122,7 @@
 				}
 			if(callFixedUpdate){
 				// Check for updates to render container dimensions
-				for(var i in _renderers)
-					if(_renderers.hasOwnProperty(i))
-						_renderers[i].updateDimensions();
+				_renderer.updateDimensions();
 				// Update lastFixedUpdate value
 				lastFixedUpdate = threedo.update.time;
 			}
@@ -148,10 +138,7 @@
 				// Call update on every node
 				if(threedo.scene)
 					threedo.scene.update();
-				for(var i in _renderers){
-					if(_renderers.hasOwnProperty(i))
-						_renderers[i].render();
-				}
+				_renderer.render();
 			stats.end();
 		};
 
@@ -167,8 +154,7 @@
 			scene : this
 		});
 
-		this.renderer = new threedo.Renderer({
-			name : "primary",
+		_renderer = new threedo.Renderer({
 			camera : mainCamera,
 			scene : this
 		});
