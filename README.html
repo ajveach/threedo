@@ -13,41 +13,51 @@ README.md
 <p>You can follow the development of threedo at <a href="http://threedo.seventy5times.com">http://threedo.seventy5times.com</a>.</p>
 <h2 id="installation">Installation</h2>
 <h2 id="basic-usage">Basic Usage</h2>
-<h3 id="spaces">Spaces</h3>
-<p>Spaces in threedo are similar to namespaces, and are not related to any 2D or 3D space. Spaces are containers for nodes, and can include other functionality as well. Use spaces to organize your code structure, and to easily chain calls to individual nodes.</p>
-<p><strong>Creating a space</strong></p>
-<p><em>NOTE: You can create and manage a space on your own, but by calling threedo.spaces() threedo will track the space for you.</em></p>
-<pre><code>// Create the space
-var space = new threedo.Space({name:&quot;myFirstSpace&quot;});
-// Add it to threedo&#39;s spaces library
-threedo.space.add(space);
-
-// This is the shorthand method
-threedo.space({name:&quot;myFirstSpace&quot;});
+<p><em>View the init.js file in the example directory to see a working example</em></p>
+<h3 id="scenes">Scenes</h3>
+<p>TODO: Add support and documentation for multi-scene handling</p>
+<p><strong>Creating your first scene</strong></p>
+<pre><code>/* threedo.init(options,callback); */
+threedo.init({
+    name : &quot;DemoScene&quot;
+},function(){
+    // Callback fired when scene is ready. You can create models within the scene here, but that is better done in separate files to maintain organization.
+});
 </code></pre><h3 id="nodes">Nodes</h3>
 <p>Nodes are the primary building block for game objects in threedo. There will be a number of different types of nodes available that will all inherit from the threedo.Node object. You can create and manage nodes on your own, but they will be more effective and organized if created/added inside a space. By adding a node to a space, its update() method will automatically be fired every frame. If you don&#39;t add a node to a space, you will have to manually register its update method with threedo.update().</p>
+<p>Most Nodes used will actually inherit from Node3D. These includes Lights, Cameras, Meshes, and primitive Objects (Cube, Sphere, ...).</p>
 <p><strong>Creating a node</strong></p>
-<pre><code>// Create a 3D node
-var node = new threedo.Node3D({name:&quot;bigMonster&quot;});
-// Add the node to a space
-threedo.space(&#39;myFirstSpace&#39;).node.add(node);
+<pre><code>// Create a Light
+new threedo.Light({
+    name : &quot;light&quot;,
+    color : 0xffffff,
+    position : [0,0,10]
+});
 
-// This is the shorthand method
-threedo.space(&#39;myFirstSpace&#39;).node({name : &quot;bigMonster&quot;, type : threedo.Node3D});
-</code></pre><p><em>NOTE: You can chain node and space creation together</em></p>
-<pre><code>threedo
-    .space.add(new threedo.Space({name:&quot;myFirstSpace&quot;}))
-    .node.add(new threedo.Node3D({name:&quot;bigMonster&quot;}))
-        .name;
+// Create a cube
+var demoCube = new threedo.Cube({
+    name : &quot;demoCube&quot;,
+    color : 0xff00ff,
+    scale : new THREE.Vector3(1,1,2),
+    rotation : new THREE.Euler(1,1,1,&#39;XYZ&#39;),
+    position : new THREE.Vector3(-2,-1,0)
+});
 
-// This is the combined shorthand method
-threedo.space({name : &quot;myFirstSpace&quot;}).node({name : &quot;bigMonster&quot;, type : threedo.Node3D});
-</code></pre><p><strong>Using nodes in the space</strong></p>
-<pre><code>threedo.space(&#39;myFirstSpace&#39;).node(&#39;bigMonster&#39;).name;
-</code></pre><h3 id="scenes">Scenes</h3>
-<p>TODO: Add support and documentation for multi-scene handling</p>
-<p><strong>Creating a scene</strong></p>
-<pre><code>threedo.scene.init(callback)
+// Apply movement to the cube
+demoCube.update = function(){
+    this.Mesh.rotation.x += .01;
+    this.Mesh.rotation.y += .01;
+    this.Mesh.scale.z = Math.abs(Math.sin(threedo.update.time));
+    this.Mesh.position.y = Math.sin(threedo.update.time);
+};
+</code></pre><h3 id="ui">UI</h3>
+<p>The threedo UI system will soon be rebuilt to properly reflect the changes to threedo&#39;s model structure. This documentation will be reflected to show those changes when implemented.</p>
+<pre><code>// Create a text UI element
+threedo.UI.text({
+    name : &quot;threedoLogo&quot;,
+    text:&quot;threedo&quot;,
+    class:&quot;threedo-UI-logo&quot;
+});
 </code></pre><h2 id="next-steps">Next Steps</h2>
 
 </body>

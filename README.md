@@ -7,63 +7,64 @@ You can follow the development of threedo at http://threedo.seventy5times.com.
 ## Installation
 
 ## Basic Usage
+*View the init.js file in the example directory to see a working example*
 
-### Spaces
-Spaces in threedo are similar to namespaces, and are not related to any 2D or 3D space. Spaces are containers for nodes, and can include other functionality as well. Use spaces to organize your code structure, and to easily chain calls to individual nodes.
+### Scenes
+TODO: Add support and documentation for multi-scene handling
 
-**Creating a space**
-
-*NOTE: You can create and manage a space on your own, but by calling threedo.spaces() threedo will track the space for you.*
-
+**Creating your first scene**
 ```
-// Create the space
-var space = new threedo.Space({name:"myFirstSpace"});
-// Add it to threedo's spaces library
-threedo.space.add(space);
-
-// This is the shorthand method
-threedo.space({name:"myFirstSpace"});
+/* threedo.init(options,callback); */
+threedo.init({
+	name : "DemoScene"
+},function(){
+	// Callback fired when scene is ready. You can create models within the scene here, but that is better done in separate files to maintain organization.
+});
 ```
 
 ### Nodes
 Nodes are the primary building block for game objects in threedo. There will be a number of different types of nodes available that will all inherit from the threedo.Node object. You can create and manage nodes on your own, but they will be more effective and organized if created/added inside a space. By adding a node to a space, its update() method will automatically be fired every frame. If you don't add a node to a space, you will have to manually register its update method with threedo.update().
 
+Most Nodes used will actually inherit from Node3D. These includes Lights, Cameras, Meshes, and primitive Objects (Cube, Sphere, ...).
+
 **Creating a node**
 
 ```
-// Create a 3D node
-var node = new threedo.Node3D({name:"bigMonster"});
-// Add the node to a space
-threedo.space('myFirstSpace').node.add(node);
+// Create a Light
+new threedo.Light({
+	name : "light",
+	color : 0xffffff,
+	position : [0,0,10]
+});
 
-// This is the shorthand method
-threedo.space('myFirstSpace').node({name : "bigMonster", type : threedo.Node3D});
+// Create a cube
+var demoCube = new threedo.Cube({
+	name : "demoCube",
+	color : 0xff00ff,
+	scale : new THREE.Vector3(1,1,2),
+	rotation : new THREE.Euler(1,1,1,'XYZ'),
+	position : new THREE.Vector3(-2,-1,0)
+});
+
+// Apply movement to the cube
+demoCube.update = function(){
+	this.Mesh.rotation.x += .01;
+	this.Mesh.rotation.y += .01;
+	this.Mesh.scale.z = Math.abs(Math.sin(threedo.update.time));
+	this.Mesh.position.y = Math.sin(threedo.update.time);
+};
 ```
 
-*NOTE: You can chain node and space creation together*
+### UI
+The threedo UI system will soon be rebuilt to properly reflect the changes to threedo's model structure. This documentation will be reflected to show those changes when implemented.
 
 ```
-threedo
-	.space.add(new threedo.Space({name:"myFirstSpace"}))
-	.node.add(new threedo.Node3D({name:"bigMonster"}))
-		.name;
-
-// This is the combined shorthand method
-threedo.space({name : "myFirstSpace"}).node({name : "bigMonster", type : threedo.Node3D});
-```
-
-**Using nodes in the space**
-
-```
-threedo.space('myFirstSpace').node('bigMonster').name;
-```
-
-### Scenes
-TODO: Add support and documentation for multi-scene handling
-
-**Creating a scene**
-```
-threedo.scene.init(callback)
+// Create a text UI element
+threedo.UI.text({
+	name : "threedoLogo",
+	text:"threedo",
+	class:"threedo-UI-logo"
+});
 ```
 
 ## Next Steps
