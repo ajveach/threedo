@@ -106,38 +106,69 @@
 			return _nodes[name] || null;
 		};
 
-		var fixedUpdateInterval = .1;
-		var lastFixedUpdate = -fixedUpdateInterval;
+		var _updateQueue = {},
+				_fixedUpdateQueue = {};
 		this.update = function(){
-			var callFixedUpdate = threedo.update.time - lastFixedUpdate >= fixedUpdateInterval ? true : false;
-			// TODO: Look into caching update calls to avoid looping through all nodes
 			// Call update method on nodes in scene
-			for(var i in _nodes)
-				if(_nodes.hasOwnProperty(i)){
-					if(typeof _nodes[i].update === "function")
-						_nodes[i].update();
-					if(callFixedUpdate && typeof _nodes[i].fixedUpdate === "function"){
-						_nodes[i].fixedUpdate();
-					}
-				}
-			if(callFixedUpdate){
-				// Check for updates to render container dimensions
-				_renderer.updateDimensions();
-				// Update lastFixedUpdate value
-				lastFixedUpdate = threedo.update.time;
-			}
+			for(var i in _updateQueue)
+				if(_updateQueue.hasOwnProperty(i) && _updateQueue[i].active)
+					_updateQueue[i].update();
+		};
+		this.update.add = function(node){
+			if(_updateQueue[node.name])
+				throw "A node named \""+node.name+"\" already exists in this scene's update queue";
+			_updateQueue[node.name] = node;
+		};
+		this.update.remove = function(node){
+			if(typeof node === "string" && _updateQueue[node])
+				delete _updateQueue[node];
+			else if(node instanceof threedo.Node && _updateQueue[node.name])
+				delete _updateQueue[node.name];
+		};
+
+		this.fixedUpdate = function(){
+			// Check for updates to render container dimensions
+			_renderer.updateDimensions();
+
+			// Call fixedUpdate on all queued nodes
+			for(var i in _fixedUpdateQueue)
+				if(_fixedUpdateQueue.hasOwnProperty(i) && _fixedUpdateQueue[i].active)
+					_fixedUpdateQueue[i].fixedUpdate();
+
+			// Update lastFixedUpdate value
+			lastFixedUpdate = threedo.update.time;
+		};
+		this.fixedUpdate.add = function(node){
+			if(_fixedUpdateQueue[node.name])
+				throw "A node named \""+node.name+"\" already exists in this scene's update queue";
+			_fixedUpdateQueue[node.name] = node;
+		};
+		this.fixedUpdate.remove = function(node){
+			if(typeof node === "string" && _fixedUpdateQueue[node])
+				delete _fixedUpdateQueue[node];
+			else if(node instanceof threedo.Node && _fixedUpdateQueue[node.name])
+				delete _fixedUpdateQueue[node.name];
 		};
 
 		/**
 		 * 	Animation handler
 		 */
+		var fixedUpdateInterval = .1;
+		var lastFixedUpdate = -fixedUpdateInterval;
 		var _animate = function(){
 			requestAnimationFrame(_animate);
 			stats.begin();
 				threedo.update();
-				// Call update on every node
-				if(threedo.scene)
+
+				if(threedo.scene){
+					// Call update on every node
 					threedo.scene.update();
+
+					// Call fixedUpdate every .1 seconds
+					var callFixedUpdate = threedo.update.time - lastFixedUpdate >= fixedUpdateInterval ? true : false;
+					if(callFixedUpdate)
+						threedo.scene.fixedUpdate();
+				}
 				_renderer.render();
 			stats.end();
 		};
