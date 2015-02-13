@@ -23,7 +23,7 @@ threedo.init({
 ```
 
 ### Nodes
-Nodes are the primary building block for game objects in threedo. There will be a number of different types of nodes available that will all inherit from the threedo.Node object. You can create and manage nodes on your own, but they will be more effective and organized if added to a scene. By adding a node to a scene, its update()and fixedUpdate() methods will automatically be added to the queue.
+Nodes are the primary building block for game objects in threedo. There will be a number of different types of nodes available that will all inherit from the threedo.Node object. You can create and manage nodes on your own, but they will be more effective and organized if added to a scene. By adding a node to a scene, its update() and fixedUpdate() methods will automatically be added to the queue.
 
 The Node model will provide all inheriting objects with a name property, and update and fixedUpdate methods.
 

@@ -94,8 +94,10 @@
 		this.add = function(node){
 			if(!_nodes[node.name]){
 				_nodes[node.name] = node;
-				var sceneObj = node.Camera || node.Mesh || node.Object3D || node.Light;
-				_scene.add(sceneObj);
+				// UI objects are nodes, but should not be added to the THREE.js scene
+				var sceneObj = node.Camera || node.Mesh || node.Object3D || node.Light || null;
+				if(sceneObj)
+					_scene.add(sceneObj);
 				return node;
 			}
 
