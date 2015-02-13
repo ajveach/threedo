@@ -23,9 +23,11 @@ threedo.init({
 ```
 
 ### Nodes
-Nodes are the primary building block for game objects in threedo. There will be a number of different types of nodes available that will all inherit from the threedo.Node object. You can create and manage nodes on your own, but they will be more effective and organized if created/added inside a space. By adding a node to a space, its update() method will automatically be fired every frame. If you don't add a node to a space, you will have to manually register its update method with threedo.update().
+Nodes are the primary building block for game objects in threedo. There will be a number of different types of nodes available that will all inherit from the threedo.Node object. You can create and manage nodes on your own, but they will be more effective and organized if added to a scene. By adding a node to a scene, its update()and fixedUpdate() methods will automatically be added to the queue.
 
-Most Nodes used will actually inherit from Node3D. These includes Lights, Cameras, Meshes, and primitive Objects (Cube, Sphere, ...).
+The Node model will provide all inheriting objects with a name property, and update and fixedUpdate methods.
+
+Most Nodes used will actually inherit from Node3D. These includes Lights, Cameras, Meshes, and primitive Objects (Cube, Sphere, ...). By default, all core threedo Models inheriting Node3D automatically add their object instances to the current scene.
 
 **Creating a node**
 
