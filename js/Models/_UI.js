@@ -19,17 +19,16 @@
 		this.persist = options.persist || false;
 
 		/**
-		 * The context property will determine in what area the UI element is rendered. It can be "global" or a jQuery object container. If no context is provided global will be assumed
+		 * The context property will determine in what area the UI element is rendered. It can be "global" (render to the entire canvas space or a viewport identifier. If no context is provided global will be assumed
 		 * @type {mixed}
 		 */
+		// TODO: When proper viewport handling is in place, update this setter to check if value is a valid viewport identifier
 		var _context = "global";
 		Object.defineProperty(this,"context",{
 			get : function(){ return _context; },
 			set : function(value){
-				if(!value)
+				if(!value || value === "global")
 					_context = "global";
-				else if(value !== "global" && !(value instanceof jQuery))
-					throw "This UI object must be provided a jQuery container or \"global\" string as context";
 				else
 					_context = value;
 			}
@@ -64,6 +63,7 @@
 		 * The position property is of type object (top,right,bottom,left). It can be provided an array or object with properties top,right,left,bottom
 		 * @type {object}
 		 */
+		// TODO: Create model for screen position. Currently if you call this.position.top += 1, you have to separately call this.position.refresh. Each of the position values need to be set as properties with getters/setters
 		var _position = {
 			top:0,
 			right:null,
