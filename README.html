@@ -52,12 +52,18 @@ demoCube.update = function(){
     this.Mesh.position.y = Math.sin(threedo.update.time);
 };
 </code></pre><h3 id="ui">UI</h3>
-<p>The threedo UI system will soon be rebuilt to properly reflect the changes to threedo&#39;s model structure. This documentation will be reflected to show those changes when implemented.</p>
+<p>The threedo UI system is being rebuilt to inherit from the threedo.Node model. Currently threedo.UI.text is the only option available. It supports positioning, custom text content, custom classes, and all of the inherited properties and methods from the Node model (name, update(), fixedUpdate(), ...).</p>
 <pre><code>// Create a text UI element
-threedo.UI.text({
+new threedo.UI.text({
     name : &quot;threedoLogo&quot;,
-    text:&quot;threedo&quot;,
-    class:&quot;threedo-UI-logo&quot;
+    text : &quot;threedo&quot;,
+    class : &quot;threedo-UI-logo&quot;,
+    position : {
+        top : 10,
+        right : null,
+        bottom : null,
+        left : null
+    }
 });
 </code></pre><h2 id="next-steps">Next Steps</h2>
 

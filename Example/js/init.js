@@ -2,13 +2,12 @@ $(function(){
 	threedo.init({
 		name : "demo"
 	},function(){
-		threedo.loading(true);
 		// Disable context menu
 		//threedo.scene.$container.on('contextmenu',function(e){e.preventDefault();});
 
-		threedo.UI.text({
-			name : "threedoLogo",
-			text:"threedo",
+		new threedo.UI.text({
+			name:"logo",
+			text:"test",
 			class:"threedo-UI-logo"
 		});
 
@@ -60,7 +59,5 @@ $(function(){
 			this.Mesh.rotation.z += .01;
 			this.Mesh.scale.x = Math.abs(Math.sin(threedo.update.time));
 		};
-
-		threedo.loading(false);
 	});
 });

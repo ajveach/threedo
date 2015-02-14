@@ -58,14 +58,20 @@ demoCube.update = function(){
 ```
 
 ### UI
-The threedo UI system will soon be rebuilt to properly reflect the changes to threedo's model structure. This documentation will be reflected to show those changes when implemented.
+The threedo UI system is being rebuilt to inherit from the threedo.Node model. Currently threedo.UI.text is the only option available. It supports positioning, custom text content, custom classes, and all of the inherited properties and methods from the Node model (name, update(), fixedUpdate(), ...).
 
 ```
 // Create a text UI element
-threedo.UI.text({
+new threedo.UI.text({
 	name : "threedoLogo",
-	text:"threedo",
-	class:"threedo-UI-logo"
+	text : "threedo",
+	class : "threedo-UI-logo",
+	position : {
+		top : 10,
+		right : null,
+		bottom : null,
+		left : null
+	}
 });
 ```
 
