@@ -17,6 +17,7 @@
 //@prepros-append ../js/Models/_Sphere.js
 
 //@prepros-append ../js/Models/_UI.text.js
+//@prepros-append ../js/Models/_UI.select.js
 
 //@prepros-append ../js/utility/*.js
 

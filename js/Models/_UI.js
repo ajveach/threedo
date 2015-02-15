@@ -56,8 +56,7 @@
 				this.$.removeClass().addClass('threedo-UI '+ (this.typeSpecificClass ? this.typeSpecificClass : "") + " " + _class);
 			}
 		});
-		if(typeof options.class === "string")
-			this.class = options.class;
+		this.class = options.class || "";
 
 		/**
 		 * The position property is of type object (top,right,bottom,left). It can be provided an array or object with properties top,right,left,bottom
