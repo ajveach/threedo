@@ -37,6 +37,51 @@
 			return thisSelect.$.children('.options').is(":visible");
 		};
 
+		/**
+		 * the value property will be updated when the user clicks on an option, or when other scripts modify it directly. Upon changing, the event listener is fired as well as updates to the DOM
+		 */
+		var _value;
+		Object.defineProperty(this,"value",{
+			get : function(){ return _value; },
+			set : function(val){
+				// Check if change occurred
+				if(val !== _value){
+					var selectedOption;
+					_value = val;
+					for(var i in _options){
+						if(_options.hasOwnProperty(i) && typeof _options[i] === "object"){
+							_options[i].$.removeClass('selected');
+							_options[i].selected = false;
+							if(_options[i].value == _value){
+								_options[i].selected = true;
+								_options[i].$.addClass('selected');
+								selectedOption = _options[i];
+							}
+						}
+					}
+					this.label = selectedOption.name;
+					this.collapse();
+					if(typeof this.onChange === 'function')
+						this.onChange(_value);
+				}
+			}
+		});
+
+		/**
+		 * Bind an event to the select object container jQuery object
+		 * @param  {string} event The name of the event to bind. Refer to http://api.jquery.com/on/ for more information
+		 * @param  {function} func  The method to call when the event is triggered
+		 */
+		this.on = function(event,func){
+			// If a bind to the change event is requested, apply to custom onChange method because this is not a native select element
+			if(event == "change")
+				this.onChange = func;
+			else
+				thisSelect.$.on(event,func);
+		};
+
+		this.onChange = null;
+
 		if(!options.label)
 			throw "A label is required to create a UI.select object";
 
@@ -71,8 +116,17 @@
 			var option = option;
 			if(typeof option === 'string')
 				var option = { name : option, value : option };
+			option.index = _options.length;
+			option.$ = $("<div />")
+										.html(option.name)
+										.attr('data-value',option.value)
+										.attr('data-index',option.index)
+										.addClass('option')
+										.appendTo(_$options)
+										.on('click',function(){
+											thisSelect.value = thisSelect.options[option.index].value;
+										});
 			_options.push(option);
-			$("<div />").html(option.name).attr('data-value',option.value).attr('data-index',_options.length - 1).addClass('option').appendTo(_$options);
 		};
 
 		this.options.remove = function(index){
