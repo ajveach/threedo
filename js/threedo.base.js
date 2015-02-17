@@ -46,6 +46,12 @@
 
 		// init function to be called when switching scenes
 		this.init = function(options,next){
+			// If this is the first init call, fire the generate method to load all modules
+			if(!this.initialized){
+				this.generate();
+				this.initialized = true;
+			}
+
 			// If scene is loaded, unload it before starting new one
 
 			// Load new scene
@@ -53,6 +59,8 @@
 			if(typeof next === 'function')
 				next();
 		};
+
+		this.initialized = false;
 	};
 
 	window.threedo = new threedo();
