@@ -42,6 +42,25 @@
 		else if(typeof options.requirements === "string"){
 			this.requirement = options.requirements;
 		}
+
+		// If library requirements exist in the options object, check if they exist
+		if(typeof options.requirements === "object" && typeof options.requirements.libraries === "object"){
+			for(var i in options.requirements.libraries)
+				if(options.requirements.libraries.hasOwnProperty(i))
+					loadLibrary(options.requirements.libraries[i],options.generate);
+		}
+	};
+
+	var loadLibrary = function(library,generate){
+		if(typeof library.check !== 'function')
+			throw "A \"check\" method is required for all libary requirements.";
+
+		if(!library.check())
+			$.get(library.file,function(){
+				generate.next(generate.loadOrder,generate.index);
+			});
+		else
+			generate.next(generate.loadOrder,generate.index);
 	};
 
 	threedo.Module.prototype = Object.create(threedo.Model.prototype);
