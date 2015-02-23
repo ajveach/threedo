@@ -46,18 +46,17 @@
 
 		// init function to be called when switching scenes
 		this.init = function(options,next){
+			var threedo = this;
 			// If this is the first init call, fire the generate method to load all modules
 			if(!this.initialized){
-				this.generate();
-				this.initialized = true;
+				// Package Application
+				this.package(function(){
+					// Load new scene
+					threedo.scene = new threedo.Scene(options);
+					if(typeof next === 'function')
+						next();
+				});
 			}
-
-			// If scene is loaded, unload it before starting new one
-
-			// Load new scene
-			this.scene = new this.Scene(options);
-			if(typeof next === 'function')
-				next();
 		};
 
 		this.initialized = false;

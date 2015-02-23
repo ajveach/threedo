@@ -1,5 +1,5 @@
 (function(){
-	threedo.Scene = function(options){
+	threedo.Scene = function(options,next){
 		threedo.Model.call(this);
 
 		if(!options.name)
@@ -194,6 +194,10 @@
 
 		// Start animating
 		_animate();
+
+		// Fire callback
+		if(typeof next === 'function')
+			return next();
 	};
 
 	threedo.Scene.prototype = Object.create(threedo.Model.prototype);

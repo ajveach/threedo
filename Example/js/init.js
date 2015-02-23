@@ -12,12 +12,12 @@ $(function(){
 		});
 
 		// Position camera
-		threedo.scene.renderer.camera.position = new THREE.Vector3(0,0,10);
+		threedo.scene.renderer.camera.position = new THREE.Vector3(0,0,80);
 
-		//threedo.scene.backgroundColor(0xccccff);
+		threedo.scene.renderer.backgroundColor = 0xaaaaaa;
 
 		// Create skybox
-		var prefix = "img/textures/skybox/";
+		/*var prefix = "img/textures/skybox/";
 		threedo.scene.skybox = [
 			prefix + "xpos.png",
 			prefix + "xneg.png",
@@ -25,7 +25,7 @@ $(function(){
 			prefix + "yneg.png",
 			prefix + "zpos.png",
 			prefix + "zneg.png"
-		];
+		];*/
 
 		// Create light
 		new threedo.Light({
@@ -34,20 +34,23 @@ $(function(){
 			position : [0,0,10]
 		});
 
+		// Create ground
+		var ground = new threedo.Cube({
+			name : "ground",
+			color : 0x00ff00,
+			scale : new THREE.Vector3(50,5,50),
+			position : new THREE.Vector3(0,-20,0)
+		});
+		ground.collider = true;
+
 		// Create cube
 		var myCube = new threedo.Cube({
 			name : "myCube",
 			color : 0xff00ff,
-			scale : new THREE.Vector3(1,1,2),
-			rotation : new THREE.Euler(1,1,1,'XYZ'),
-			position : new THREE.Vector3(-2,-1,0)
+			scale : new THREE.Vector3(1,1,1),
+			position : new THREE.Vector3(-2,20,0)
 		});
-		myCube.update = function(){
-			this.Mesh.rotation.x += .01;
-			this.Mesh.rotation.y += .01;
-			this.Mesh.scale.z = Math.abs(Math.sin(threedo.update.time));
-			this.Mesh.position.y = Math.sin(threedo.update.time);
-		};
+		myCube.rigidbody = true;
 
 		new threedo.Sphere({
 			name : "mySphere",

@@ -1,12 +1,13 @@
 //@prepros-append ../js/threedo.base.js
 
+//@prepros-append ../js/core/_package.js
+
 //@prepros-append ../js/core/_onResize.js
 //@prepros-append ../js/core/_update.js
 //@prepros-append ../js/core/_loading.js
 //@prepros-append ../js/core/_Model.js
 //@prepros-append ../js/core/Models/_Module.js
 //@prepros-append ../js/core/_extend.js
-//@prepros-append ../js/core/_generate.js
 
 //@prepros-append ../js/core/Models/_Renderer.js
 //@prepros-append ../js/core/Models/_Scene.js
